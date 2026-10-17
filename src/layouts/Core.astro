@@ -1,0 +1,62 @@
+---
+/**
+ * Wrapper around Alter-Specific layouts, providing global styling
+ */
+import * as Alters from "./alters";
+interface Props {
+  title: string;
+  /**
+   * now while i *could* default this to Lillith, i no no wanna :pout: - lucia
+   */
+  alter: keyof typeof Alters;
+}
+const { title, alter } = Astro.props;
+const AlterLayout = Alters[alter];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!-- TODO: favicons -->
+    <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" /> -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <AlterLayout>
+      <slot />
+    </AlterLayout>
+  </body>
+</html>
+
+<style is:global>
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: Arial;
+  }
+
+  hr {
+    border-top: 1px solid var(--color-text);
+  }
+
+  a {
+    color: var(--color-text);
+    text-decoration-line: none;
+    &:not(.plain) {
+      font-style: italic;
+    }
+  }
+
+  code {
+    /* if you dont like my choice of monospace go kick rocks. - lillith */
+    font-family: "Comic Code Ligatures", monospace;
+  }
+</style>

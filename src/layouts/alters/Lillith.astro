@@ -1,0 +1,67 @@
+<div class="lillith">
+  <header>
+    <h1 class="lillith__title">
+      <a href="/" class="plain">Lillith's Site~&lt3</a>
+    </h1>
+    <nav class="lillith__nav">
+      <a class="plain" href="/fixme">dummy</a>
+    </nav>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+</div>
+<style is:global>
+  .lillith {
+    --color-background: #2a1c2d;
+    --color-background-secondary: #231923;
+    --color-button: #2c202e;
+    --color-button-hover: #3a2e3d;
+    --color-border: #392b3a;
+    --color-text: white;
+
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    box-sizing: border-box;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    background-color: var(--color-background-secondary);
+    color: var(--color-text);
+
+    & > header,
+    & > main {
+      padding: 1.25rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.5rem;
+    }
+
+    & > header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    & > header > h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    & > header > nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    & > main {
+      overflow: auto;
+      background-color: var(--color-background);
+    }
+
+    :global(& a.plain-link) {
+      font-style: normal;
+    }
+  }
+</style>
