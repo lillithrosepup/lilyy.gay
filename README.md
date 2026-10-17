@@ -43,3 +43,5 @@ My initial "rant" on the topic, more informal language here
 ## Side-Notes
 
 - This rewrite was started `2026-10-17T03:37:00.000Z` and initial commit done at `2026-10-17T05:41:29.643Z`. That's just over 2 hours. Pretty fast if I do say so myself.
+
+- I made the README before even initalizing the astro template. Just needed to get my thoughts down on paper
