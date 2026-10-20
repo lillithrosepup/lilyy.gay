@@ -4,6 +4,7 @@ import NowPlaying from "../components/NowPlaying.astro";
 import CoreLayout from "../layouts/Core.astro";
 
 // fuck this
+// TODO: make this not compile-time
 const birthday = new Date("2006-11-17T05:00:00.000Z");
 const now = new Date();
 let age = now.getFullYear() - birthday.getFullYear();
@@ -117,7 +118,7 @@ const languages: {
       </ul>
     </div>
 
-    <NowPlaying />
+    <NowPlaying server:defer />
 
     <!--
       sitekey gone until i can workout tooltips like old site
