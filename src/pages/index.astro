@@ -1,6 +1,7 @@
 ---
 // 2026-10-17T04:31:53.309Z - recreated by lucia~<3
 import NowPlaying from "../components/NowPlaying.astro";
+import Tooltip from "../components/Tooltip.astro";
 import CoreLayout from "../layouts/Core.astro";
 
 // fuck this
@@ -54,6 +55,12 @@ const languages: {
     tooltip:
       'UdonSharp, VRChat\'s restricted C# flavor that is compiled down to their own "udon" bytecode',
   },
+  {
+    name: "English",
+    url: "https://en.wikipedia.com",
+    tooltip: "yeah...",
+    underline: false
+  }
 ];
 ---
 
@@ -61,7 +68,7 @@ const languages: {
  what the fuck were you doing lils
  - lucia -->
 <CoreLayout title="Lillith's Site~<3" alter="Lillith">
-  <div>
+  <main>
     <h1>Hey there, I'm LillithRosePup!</h1>
     <div>
       <p>
@@ -79,9 +86,16 @@ const languages: {
       <h2>Small things about me</h2>
       <ul>
         {
-          // TODO: tooltips
           smallThings.map((thing) =>
-            typeof thing === "string" ? <li>{thing}</li> : <li>{thing[0]}</li>,
+            typeof thing === "string" ? (
+              <li>{thing}</li>
+            ) : (
+              <li>
+                <Tooltip text={thing[1]} underline={thing[2]}>
+                  {thing[0]}
+                </Tooltip>
+              </li>
+            ),
           )
         }
       </ul>
@@ -90,65 +104,83 @@ const languages: {
       <h2>Languages I Know</h2>
       <ul>
         {
-          // once again
-          // TODO: tooltips
-          languages.map((lang) => (
-            <li>
-              {lang.url ? (
-                <a href={lang.url}>{lang.name}</a>
-              ) : (
-                <span>{lang.name}</span>
-              )}
-            </li>
-          ))
+          languages.map((lang) => {
+            const body = lang.url ? (
+              <a href={lang.url}>{lang.name}</a>
+            ) : (
+              <span>{lang.name}</span>
+            );
+            return (
+              <li>
+                {lang.tooltip ? (
+                  <Tooltip text={lang.tooltip} underline={lang.underline}>
+                    {body}
+                  </Tooltip>
+                ) : (
+                  body
+                )}
+              </li>
+            );
+          })
         }
-        <!-- {#each languages as language (language)}
-				{#if typeof language === 'string'}
-					<li>{language}</li>
-				{:else}
-					<li use:tooltip={{ text: language.tooltip, underline: language.underline }}>
-						{#if language.url}
-							<a href={language.url} rel="external" target="_blank">{language.name}</a>
-						{:else}
-							{language.name}
-						{/if}
-					</li>
-				{/if}
-			{/each} -->
       </ul>
     </div>
 
     <NowPlaying server:defer />
 
-    <!--
-      sitekey gone until i can workout tooltips like old site
-      youll never guess
-      // TODO: tooltips
-		<div
-      class="bg-background-secondary p-5 border-border border rounded-lg mt-10"
-    >
-      <span>Site Key</span>
-      <ul class="list-disc list-inside text-sm flex flex-col">
-        <li>Underlined text <span use:tooltip={'Like this!'}>has a Tooltip</span></li>
+    <section class="sitekey">
+      <h2>Site Key</h2>
+      <ul>
         <li>
-          <a target="_blank" href="https://petoftheday.com/"
-            >Italic text is a link</a>
+          Underlined text <Tooltip text="Like This!">has a Tooltip</Tooltip>
         </li>
         <li>
-			<a target="_blank" href="https://catoftheday.com/" use:tooltip={'oo cat!'}
-				>Links can have tooltips too</a
-			>
-		</li>
+          <a target="_blank" href="https://petoftheday.com/"
+            >Italic text is a link</a
+          >
+        </li>
         <li>
-			<a
-				target="_blank"
-				href="https://dogoftheday.com/"
-				class="not-italic"
-				use:tooltip={{ text: 'sneaky :3', underline: false }}
-				>Links and tooltips don't have to be visible</a
-			>
-		</li>
+          <Tooltip text="oo cat!"
+            ><a target="_blank" href="https://catoftheday.com/"
+              >Links can have tooltips too</a
+            ></Tooltip
+          >
+        </li>
+        <li>
+          <Tooltip text="sneaky :3" underline={false}
+            ><a target="_blank" href="https://dogoftheday.com/" class="plain"
+              >Links and tooltips don't have to be visible</a
+            ></Tooltip
+          >
+        </li>
       </ul>
-    </div> -->
-  </div>
+    </section>
+  </main>
 </CoreLayout>
+
+<style>
+  /* main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  } */
+  section {
+    margin-top: 0.5rem;
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background-color: var(--color-background-secondary);
+
+    & > h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+  }
+  .sitekey.ul {
+      /*list-disc list-inside text-sm flex flex-col*/
+      list-style-position: inside;
+      list-style-type: disc;
+      text-sm
+  }
+</style>
