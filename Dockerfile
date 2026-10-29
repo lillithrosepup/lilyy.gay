@@ -5,11 +5,11 @@ WORKDIR /app
 # Therefore, the `-deps` steps will be skipped if only the source code changes.
 COPY package.json package-lock.json ./
 
-FROM base AS prod-deps
-RUN npm install --omit=dev
-
 FROM base AS build-deps
-RUN npm install
+RUN npm ci
+
+FROM build-deps AS prod-deps
+RUN npm prune --omit=dev
 
 FROM build-deps AS build
 COPY . .
